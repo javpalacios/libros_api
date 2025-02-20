@@ -11,7 +11,6 @@ venv.bak/
 .idea/
 *~
 *.swp
-*.env
 *.pip
 Pipfile.lock
 *.egg-info/
