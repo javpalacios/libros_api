@@ -7,21 +7,21 @@ from app.schemas.autor import AutorCreate, AutorResponse, AutorUpdate
 router = APIRouter(prefix="/autores", tags=["Autores"])
 
 @router.post("/", response_model=AutorResponse)
-def agregar_autor(autor: AutorCreate, service: AutorService = Depends()):
-    return service.create_autor(autor)
+def create_autor(autor: AutorCreate, service: AutorService = Depends()):
+    return service.create(autor)
 
 @router.get("/", response_model=list[AutorResponse])
-def obtener_autores(service: AutorService = Depends()):
-    return service.get_all_autores()
+def read_autores(service: AutorService = Depends()):
+    return service.get_all()
 
 @router.get("/{id}", response_model=AutorResponse)
-def obtener_autor(id: int, service: AutorService = Depends()):
-    return service.get_autor_by_id(id)
+def read_autor(id: int, service: AutorService = Depends()):
+    return service.get_by_id(id)
 
 @router.patch("/{id}", response_model=AutorResponse)
 def update_autor(id: int, autor_data: AutorUpdate, service: AutorService = Depends()):
-    return service.update_autor(id, autor_data)
+    return service.update(id, autor_data)
 
 @router.delete("/{id}", response_model=dict)
 async def delete_autor(id: int, service: AutorService = Depends()):
-    return service.delete_autor(id)
+    return service.delete(id)

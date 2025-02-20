@@ -8,14 +8,14 @@ class LibroService:
     def __init__(self, session: Session = Depends(get_session)):
         self.session = session
 
-    def create_libro(self, libro_data: LibroCreate) -> LibroResponse:
+    def create(self, libro_data: LibroCreate) -> LibroResponse:
         libro = Libro(**libro_data.model_dump())
         self.session.add(libro)
         self.session.commit()
         self.session.refresh(libro)
         return LibroResponse(**libro.model_dump())
 
-    def get_all_libros(self, autor_id: int | None, anio: int | None, genero: str | None):
+    def get_all(self, autor_id: int | None, anio: int | None, genero: str | None):
         query = select(Libro)
 
         if autor_id:
@@ -27,10 +27,10 @@ class LibroService:
 
         return self.session.exec(query).all()
 
-    def get_libro_by_id(self, id: int):
+    def get_by_id(self, id: int):
         return self.session.get(Libro, id)
 
-    def update_libro(self, id: int, libro_data: LibroUpdate) -> Libro:
+    def update(self, id: int, libro_data: LibroUpdate) -> Libro:
         libro = self.session.get(Libro, id)
         if not libro:
             raise HTTPException(status_code=404, detail="Libro no encontrado")
@@ -44,7 +44,7 @@ class LibroService:
         self.session.refresh(libro)
         return libro
 
-    def delete_libro(self, id: int):
+    def delete(self, id: int):
         libro = self.session.get(Libro, id)
         if not libro:
             raise HTTPException(status_code=404, detail="Libro no encontrado")
