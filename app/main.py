@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import libros, autores
+from app.routers import libros, autores
 from app.db.session import engine
 from sqlmodel import SQLModel
 

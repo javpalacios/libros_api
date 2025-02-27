@@ -5,22 +5,22 @@ from app.schemas.libro import LibroCreate, LibroResponse, LibroUpdate
 router = APIRouter(prefix="/libros", tags=["Libros"])
 
 @router.post("/", response_model=LibroResponse)
-def create_libro(libro: LibroCreate, service: LibroService = Depends()):
+async def create_libro(libro: LibroCreate, service: LibroService = Depends()):
     return service.create(libro)
 
 @router.get("/", response_model=list[LibroResponse])
-def read_libros(service: LibroService = Depends(),
+async def read_libros(service: LibroService = Depends(),
     autor_id: int | None = Query(None, description="Filtrar por ID del autor"),
     anio: int | None = Query(None, description="Filtrar por año de publicación"),
     genero: str | None = Query(None, description="Filtrar por género")):
     return service.get_all(autor_id, anio, genero)
 
 @router.get("/{id}", response_model=LibroResponse)
-def read_libro(id: int, service: LibroService = Depends()):
+async def read_libro(id: int, service: LibroService = Depends()):
     return service.get_by_id(id)
 
 @router.patch("/{id}", response_model=LibroResponse)
-def update_libro(id: int, libro_data: LibroUpdate, service: LibroService = Depends()):
+async def update_libro(id: int, libro_data: LibroUpdate, service: LibroService = Depends()):
     return service.update(id, libro_data)
 
 @router.delete("/{id}", response_model=dict)
